@@ -4,6 +4,7 @@ reset bytes
 
 ; this code is run once on overworld load
 overworld_load:
+        JSR savestate_slot_reset
         LDA !spliced_run
         BNE .done_saving
         LDA !save_timer_address+2
@@ -177,6 +178,12 @@ overworld_layer_3_tiles:
 overworld_object_tiles:
         incbin "bin/overworld_object_tiles.bin"
         
+savestate_slot_reset:
+        lda #$00
+        sta $700340
+        sta $700341
+        rts
+
 ; compare the timer stored at !save_timer_address against the current time, and save it if it is faster
 attempt_timer_save:
         LDA !save_timer_address
